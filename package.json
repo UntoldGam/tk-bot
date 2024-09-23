@@ -1,0 +1,39 @@
+{
+  "name": "tk-bot",
+  "version": "1.0.0",
+  "description": "Manage History Records, High Ranks, and so much more with this all-in-one bot for the Temple Keepers.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "dev": "npx tsx NODE_ENV=development src/index.ts",
+    "start": "npm run build && node NODE_ENV=production dist/index.js",
+    "start:clean": "npm i && npm run start",
+    "deploy:global": "npm run build && node dist/scripts/global-deploy.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UntoldGam/tk-bot.git"
+  },
+  "author": "Charles Bird",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/UntoldGam/tk-bot/issues"
+  },
+  "homepage": "https://github.com/UntoldGam/tk-bot#readme",
+  "dependencies": {
+    "@prisma/client": "^5.19.0",
+    "@sentry/node": "^8.17.0",
+    "axios": "^1.7.3",
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5",
+    "simple-trello": "^0.0.3",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@sentry/types": "^8.17.0",
+    "@types/node": "^20.14.10",
+    "prisma": "^5.19.0",
+    "tsx": "^4.17.0",
+    "typescript": "^5.5.3"
+  }
+}

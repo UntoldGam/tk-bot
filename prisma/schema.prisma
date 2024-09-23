@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DEV_MONGODB_URL")
+}
+
+// Records
+model Record {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  description   String
+  messageIds    Message[] // This will help for when there are multiple submissions of the same record (initial > resubmission)
+  submittedBy   String // Discord ID
+  lastUpdated   DateTime  @default(now()) @updatedAt
+  dateSubmitted DateTime  @default(now())
+  trelloLink    String? // For when we search for a record with the bot, able to return a direct link
+  approvedBy    String? // Discord ID, could use Admin type but isn't needed
+  labels        String[]
+  notes 		Note[]
+  
+  @@map("records")
+}
+
+type Note {
+	note String
+	author String
+}
+
+type Message {
+  messageId       String
+  submissionStage String // stage-num e.g. submission, change-1, change-2, etc allows us to view a "History" or "Log" of the record
+}
+
+// Server Setup
+model Server {
+  id                 String     @id @map("_id")
+  admins             Admin[] // either a user id or role id
+  commandRoleLocks   RoleLock[] // Commands that need certain roles
+  submissionsChannel String?
+  feedbackChannel    String?
+
+  @@map("servers")
+}
+
+enum AdminType {
+  USER
+  ROLE
+}
+
+type RoleLock {
+  commandName  String
+  roleRequired String
+}
+
+type Admin {
+  type AdminType // USER or ROLE
+  id   String
+}
